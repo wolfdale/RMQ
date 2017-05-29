@@ -7,8 +7,36 @@ channel.queue_declare(queue='runner')
 
 def callback(ch, method, properties, body):
     print(" [x] Received %r" % body)
-    param = body.split("+")
-    result = int(param[0]) + int(param[1])
+    if body[0] == '+':
+	adder(body)
+    elif body[0] == '*':
+	multiply(body)
+    elif body[0] == '-':
+	substract(body)
+    elif body[0] == '/':
+	divide(body)
+    else:
+	print "Worng format"
+
+    #param = body.split("+")
+    #result = int(param[0]) + int(param[1])
+    #print result
+
+
+def adder(param):
+    result = int(param[1]) + int(param[2])
+    print result
+    
+def multiply(param):
+    result = int(param[1]) * int(param[2])
+    print result
+    
+def substract(param):
+    result = int(param[1]) - int(param[2])
+    print result
+
+def divide(param):
+    result = float(param[1]) / float(param[2])
     print result
 
 channel.basic_consume(callback,
